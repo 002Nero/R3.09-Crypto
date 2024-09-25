@@ -1,27 +1,25 @@
-#Fonction de chiffrement de Vigenère
-#Cette fonction prend en paramètre un texte en clair et une clé de chiffrement, et retourne le texte chiffré.
-#Entrée : texte en clair, clé de chiffrement
-#Sortie : texte chiffré
-
+# Function to encrypt text using Vigenere cipher
+# This function takes a plaintext and an encryption key as parameters, and returns the encrypted text.
+# Input: plaintext, encryption key
+# Output: encrypted text
 
 def encryptionDeVigenere(texteEnEntree, clefDeChiffrementDeVigenere):
-   texteEncrypte = ''
-   # Repete en boucle la clef de chiffrement jusqu'a atteindre la longueur du texte en entree
-   clef_Repetee = (clefDeChiffrementDeVigenere * (len(texteEnEntree) // len(clefDeChiffrementDeVigenere))) + clefDeChiffrementDeVigenere[:len(texteEnEntree) % len(clefDeChiffrementDeVigenere)]
-   # Iteration pour chaque caractere
-   for i in range(len(texteEnEntree)):
-       # On regarde si le texte est bien une lettre de l'alphabet
-       if texteEnEntree[i].isalpha():
-           # Calcul du changement a effectue base sur la clef et le texte en entree
-           changementDeCaractere = ord(clef_Repetee[i].upper()) - ord('A')
-           # Chaque caractere alphabetique est encrypter differement s'il est en majuscule ou non
-           if texteEnEntree[i].isupper():
-               texteEncrypte += chr((ord(texteEnEntree[i]) + changementDeCaractere - ord('A')) % 26 + ord('A'))
-           else:
-               texteEncrypte += chr((ord(texteEnEntree[i]) + changementDeCaractere - ord('a')) % 26 + ord('a'))
-       else:
-           # Pour le moment seuls les caracteres alphabetiques sont pris en compte
-           # Les autres caracteres comme la ponctuation reste inchangee dans cette version du programme
-           texteEncrypte += texteEnEntree[i]
-   # Retour du texte maintenant encrypte
-   return texteEncrypte
+    if not clefDeChiffrementDeVigenere.strip():
+        raise ValueError("The encryption key cannot be empty or only spaces")
+
+    # On retire les espaces de la clef
+    clefDeChiffrementDeVigenere = clefDeChiffrementDeVigenere.replace(' ', '')
+
+    texteEncrypte = ''
+    clef_Repetee = (clefDeChiffrementDeVigenere * (len(texteEnEntree) // len(clefDeChiffrementDeVigenere))) + clefDeChiffrementDeVigenere[:len(texteEnEntree) % len(clefDeChiffrementDeVigenere)]
+
+    for i in range(len(texteEnEntree)):
+        if texteEnEntree[i] == ' ':
+            texteEncrypte += ' '
+        else:
+            char_index = ord(texteEnEntree[i])
+            key_index = ord(clef_Repetee[i])
+            encrypted_index = (char_index + key_index) % 128  # Use 128 to cover all ASCII characters
+            texteEncrypte += chr(encrypted_index)
+
+    return texteEncrypte
