@@ -4,10 +4,12 @@
 # Output: encrypted text
 
 def encryptionDeVigenere(texteEnEntree, clefDeChiffrementDeVigenere):
+    if not texteEnEntree.strip():
+        raise ValueError("Le texte d'entree ne peut etre vide ou constituee uniquement d'espaces")
     if not clefDeChiffrementDeVigenere.strip():
-        raise ValueError("The encryption key cannot be empty or only spaces")
+        raise ValueError("La clef ne peut etre vide ou constituee uniquement d'espaces")
 
-    # On retire les espaces de la clef
+    # Remove spaces from the key
     clefDeChiffrementDeVigenere = clefDeChiffrementDeVigenere.replace(' ', '')
 
     texteEncrypte = ''
