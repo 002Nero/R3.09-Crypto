@@ -2,12 +2,15 @@ import re
 from collections import defaultdict
 from math import gcd
 from functools import reduce
-    # Fonction qui permet de lire un fichier
+
+
+# Fonction pour lire un fichier
 def lire_fichier(chemin_fichier):
     with open(chemin_fichier, 'r', encoding='utf-8') as fichier:
         return fichier.read()
 
-    # Fonction qui permet de trouver les séquences répétées dans un texte
+
+# Fonction pour trouver les séquences répétées dans un texte
 def trouver_sequences_repetees(texte, longueur_sequence=3):
     sequences = defaultdict(list)
     for i in range(len(texte) - longueur_sequence + 1):
@@ -15,13 +18,17 @@ def trouver_sequences_repetees(texte, longueur_sequence=3):
         sequences[seq].append(i)
     return {seq: indices for seq, indices in sequences.items() if len(indices) > 1}
 
+
+# Fonction pour calculer les distances entre les séquences répétées
 def calculer_distances(sequences_repetees):
     distances = []
-    for indices in sequences_repetees.values():
+    for seq, indices in sequences_repetees.items():
         for i in range(len(indices) - 1):
-            distances.append(indices[i + 1] - indices[i])
+            distances.append((seq, indices[i + 1] - indices[i]))
     return distances
 
+
+# Fonction pour trouver les facteurs d'un nombre
 def trouver_facteurs(nombre):
     facteurs = set()
     for i in range(2, nombre + 1):
@@ -29,8 +36,10 @@ def trouver_facteurs(nombre):
             facteurs.add(i)
     return facteurs
 
+
+# Kasiki Examination Fontion
 def examen_kasiski(chemin_fichier, seuil_certitude=3):
-    # Lire le texte chiffré à partir du fichier
+    # Lire le texte du fichier
     texte = lire_fichier(chemin_fichier)
 
     # Trouver les séquences répétées dans le texte
@@ -39,20 +48,51 @@ def examen_kasiski(chemin_fichier, seuil_certitude=3):
     # Calculer les distances entre les séquences répétées
     distances = calculer_distances(sequences_repetees)
 
+    # Si aucune distance trouvée, retourner ?
     if not distances:
-        return None
+        return "?"
 
-    # Trouver les facteurs communs des distances
-    facteurs_communs = reduce(lambda x, y: x & y, (trouver_facteurs(distance) for distance in distances))
+    # Trier les distances par longueur de séquence
+    distances.sort(key=lambda x: len(x[0]), reverse=True)
 
-    if not facteurs_communs:
-        return None
+    # Prendre la première ligne de la table
+    premiere_ligne = distances[0]
+    seq, distance = premiere_ligne
 
-    # Déterminer la taille potentielle de la clé
-    taille_potentielle_clef = min(facteurs_communs)
+    # Calculer les facteurs de la distance
+    candidats = trouver_facteurs(distance)
 
-    # Vérifier le nombre de facteurs communs pour la certitude
-    certitude = len(facteurs_communs) >= seuil_certitude
+    # Si aucun facteur trouvé, retourner ?
+    if not candidats:
+        return "?"
 
-    # Retourner la taille potentielle de la clé avec un ? si incertain
+    # Parcourir les autres lignes de la table
+    for seq, distance in distances:
+        temp = []
+        for candidat in candidats:
+            gcd_value = gcd(candidat, distance)
+            if gcd_value != 1:
+                temp.append(gcd_value)
+
+        # Si des facteurs communs trouvés, mettre à jour les candidats
+        if temp:
+            candidats = temp
+        # Si temp est vide et il reste des lignes, continuer
+        elif not temp and distances.index((seq, distance)) < len(distances) - 1:
+            continue
+        # Si temp est vide et il n'y a plus de lignes, sortir
+        elif not temp:
+            break
+
+    # Si aucun facteur commun trouvé, retourner ?
+    if not candidats:
+        return "?"
+
+    # Determiner la taille potentielle de la clé
+    taille_potentielle_clef = min(candidats)
+
+    # Determiner la certitude
+    certitude = len(candidats) >= seuil_certitude
+
+    # Retourner la taille potentielle de la clé
     return f"{taille_potentielle_clef}{' ?' if not certitude else ''}"
