@@ -1,0 +1,11 @@
+# Conclusion
+
+Ce rapport approfondi a minutieusement examiné les aspects fondamentaux et cruciaux du chiffrement de Vigenère à travers trois exercices principaux, chacun conçu pour explorer une facette spécifique de cette méthode cryptographique classique :
+
+1. L'exercice 1 a exploré en détail le processus complexe de chiffrement de Vigenère, démontrant pas à pas comment le texte en clair est méthodiquement transformé en utilisant une clé spécifique. Cette partie a permis de comprendre les mécanismes sous-jacents qui rendent ce chiffrement plus robuste que les méthodes de substitution simple.
+2. L'exercice 2 s'est concentré sur le déchiffrement de Vigenère, illustrant de manière approfondie la méthode systématique pour récupérer le message original à partir du texte chiffré. Cette étape a mis en lumière l'importance de la connaissance de la clé et les défis posés par ce type de chiffrement pour les cryptanalystes.
+3. L'exercice 3 a abordé la technique sophistiquée de Kasiski, une méthode cruciale et ingénieuse pour déterminer la longueur de la clé dans le chiffrement de Vigenère. Cette technique, essentielle pour le processus de décryptage, a révélé comment les faiblesses inhérentes à ce système peuvent être exploitées pour en compromettre la sécurité.
+
+Ces exercices conçus et exécutés ont permis d'acquérir une compréhension approfondie et nuancée du fonctionnement du chiffrement de Vigenère, mettant en évidence ses forces considérables ainsi que ses faiblesses significatives. Ils ont également mis en lumière l'importance capitale de l'analyse cryptographique dans le domaine vaste et complexe de la sécurité de l'information, soulignant comment les techniques d'analyse peuvent révéler des vulnérabilités même dans des systèmes apparemment robustes.
+
+En conclusion, ce travail pratique rigoureux et détaillé a fourni une base solide et complète pour comprendre les principes fondamentaux de la cryptographie classique. Il a non seulement éclairé les mécanismes du chiffrement de Vigenère, mais a également préparé le terrain pour l'étude ultérieure de méthodes de chiffrement plus avancées et modernes, en établissant des liens cruciaux entre les techniques historiques et les approches contemporaines de la sécurité de l'information.
