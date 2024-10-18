@@ -1,0 +1,5 @@
+# Introduction
+
+Dans le cadre du cours de cryptographie (R3.09), ce TP porte sur la génération de mots de passe sécurisés à partir d'un mot de passe maître et d'un tag spécifique à chaque service. L'objectif est de concevoir un algorithme local capable de générer des mots de passe uniques et robustes pour différents services, en utilisant des primitives cryptographiques comme SHA1 et SHA256.
+
+Face aux risques de piratage, il est crucial de générer des mots de passe forts et variés. Ce générateur simplifie cette gestion en permettant l'usage d'un seul mot de passe maître sécurisé. Le rapport présente la recherche des bibliothèques cryptographiques, les étapes algorithmiques, et une analyse des vulnérabilités potentielles, ainsi que des recommandations pour une bonne gestion des mots de passe.

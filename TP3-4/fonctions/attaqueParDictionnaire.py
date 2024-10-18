@@ -20,16 +20,16 @@ def generate_passwords_for_tags(master_password, N):
     passwords = {tag: hacher_et_troncer(master_password, tag, N) for tag in tags}
     return passwords
 
-def dictionary_attack_all_tags(target_passwords, tags, N):
+def dictionary_attack_collision(tags, N):
     characters = string.ascii_lowercase + string.ascii_uppercase + string.digits
     attempts = 0
 
     # Itérer sur toutes les combinaisons possibles de mots de passe de 10 caractères
     for candidate in itertools.product(characters, repeat=10):
         candidate_password = ''.join(candidate)
-        generated_passwords = {tag: hacher_et_troncer(candidate_password, tag, N) for tag in tags}
+        generated_hashes = {tag: hacher_et_troncer(candidate_password, tag, N) for tag in tags}
         attempts += 1
-        if all(generated_passwords[tag] == target_passwords[tag] for tag in tags):
+        if len(set(generated_hashes.values())) == 1:  # Vérifier la collision
             return candidate_password, attempts
 
     return None, attempts
@@ -47,8 +47,8 @@ for N in [1, 2, 3]:
     passwords = generate_passwords_for_tags(master_password, N)
     print(f"Mots de passe générés pour les tags avec N={N} :", passwords)
 
-    found_password, attempts = dictionary_attack_all_tags(passwords, tags, N)
-    results[N] = attempts
+    found_password, attempts = dictionary_attack_collision(tags, N)
+    results[N] = (found_password, attempts)
 
     if found_password:
         print(f"Mot de passe maître trouvé pour N={N} : {found_password} en {attempts} tentatives")
@@ -57,5 +57,8 @@ for N in [1, 2, 3]:
 
 # Afficher les résultats
 print("Nombre d'essais nécessaires pour chaque valeur de N :")
-for N, attempts in results.items():
-    print(f"N={N} : {attempts} tentatives")
+for N, (found_password, attempts) in results.items():
+    if found_password:
+        print(f"Attaque pour N={N} : {attempts} tentatives (Mot de passe trouvé : {found_password})")
+    else:
+        print(f"Attaque pour N={N} : {attempts} tentatives (Mot de passe non trouvé)")
